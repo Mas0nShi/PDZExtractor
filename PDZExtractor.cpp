@@ -326,7 +326,8 @@ void extract_file(CStream& stream, const PDZMeta& meta, const char* bookkey, con
 
   // @note: meta.xml is not encrypted
   if (strncmp(meta.name, "meta.xml", 8) != 0) {
-    decrypt_file(data, meta.size, cipherType, bookkey, strlen(bookkey));
+    size_t dataSize = meta.size >= 1024 ? 1024 : meta.size;
+    decrypt_file(data, dataSize, cipherType, bookkey, strlen(bookkey));
   }
 
   const auto nameNull = (char *) malloc(sizeof(meta.name) + 1);
